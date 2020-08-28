@@ -1,199 +1,93 @@
 <template>
-  <div class="ctn">
-    <!-- 头部 -->
-    <!-- <div v-for="(item,i) of items" :key="i" class="ctnHead" @click="handleHeader(item)"> -->
-      <!-- <div>{{ isTotal }}</div> -->
-    <div class="ctnHead">
-      <head-bar></head-bar> 
-    </div>
+    <div class="menu-page">
+        
+        <el-menu
+            default-active="1"
+            class="el-menu-vertical-demo my-menu"
+            @open="handleOpen"
+            @close="handleClose"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            :collapse="isCollapse">
 
-    <!-- 内容主体 -->
-    <div class="ctnBody">
-      <!-- 侧边栏 -->
-      <nav-bar :id="id"></nav-bar>
-      <!-- 内容 -->
-      <div class="ctnBodyContent">
-        <div :class="['ctnBodyContentTitle', {'ctnBodyContentTitleFold': isFold}, 'easeInOut']">    
-          <el-breadcrumb separator="/" class="breadCrumb">
-            <el-breadcrumb-item><strong>{{$route.name}}</strong></el-breadcrumb-item>
-          </el-breadcrumb>   
-          <el-tag
-            id="routerTag"
-            :key="tag.path"
-            v-for="tag in dynamicTags"
-            closable
-            :disable-transitions="false"
-            style="cursor:pointer"
-            type='warning'
-            size="small"
-            @click="handleClick(tag)"
-            @close="handleClose(tag)">
-            {{tag.name}}
-          </el-tag>        
+            <div class="collapse" @click="isCollapse = !isCollapse">
+                <img v-if="isCollapse" src="@/assets/trangle_right.png">
+                <img v-else src="@/assets/trangle_left.png">
+            </div>
+
+            <el-submenu index="1">
+                <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span>电子订单管理</span>
+                </template>
+                <el-menu-item-group>
+                    <!-- <template slot="title">分组一</template> -->
+                    <el-menu-item index="1-1">电子订单列表</el-menu-item>
+                    <el-menu-item index="1-2">产品明细列表</el-menu-item>
+                </el-menu-item-group>
+                <!-- <el-menu-item-group title="分组2">
+                    <el-menu-item index="1-3">选项3</el-menu-item>
+                </el-menu-item-group>
+                <el-submenu index="1-4">
+                    <template slot="title">选项4</template>
+                    <el-menu-item index="1-4-1">选项1</el-menu-item>
+                </el-submenu> -->
+            </el-submenu>
+            <el-submenu index="2">
+                <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span>出口清单管理</span>
+                </template>
+                <el-menu-item-group>
+                    <!-- <template slot="title">分组一</template> -->
+                    <el-menu-item index="2-1">出口清单列表</el-menu-item>
+                    <el-menu-item index="2-2">清单产品明细</el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
+        </el-menu>
+        <div>
+            <router-view></router-view>
         </div>
-        <div class="childContent">
-          <router-view v-if="isRouterAlive"></router-view>
-        </div>
-      </div>  
     </div>
-  </div>
 </template>
 
 <script>
-import HeadBar from './components/HeadBar'
-import NavBar from './components/NavBar'
-import { mapGetters } from 'vuex'
-import { getCountryList, postData } from '@/api/dict.ts'   // 引入
-
 export default {
-  components: {  // 引入的组件 要注册
-    HeadBar,
-    NavBar   // <NavBar>  <nav-bar></nav-bar>
-  },
-
-  // 点击页面侧边栏实现重载页面
-  provide() {
-    return {
-      reload: this.reload
+    data() {
+        return {
+            isCollapse: false,
+        }
+    },
+    methods: {
+        handleOpen() {},
+        handleClose() {},
     }
-  },
-
-  computed: {  //  计算属性
-    isTotal() {
-      return this.a + this.b;
-    },
-    isFold() {
-      return this.$store.state.app.isFold  // vuex 存储数据进行管理  组件通信   locaStorage
-    },
-    dynamicTags() {
-      let routerPaths = this.$store.state["app"]
-      routerPaths = routerPaths["routerPaths"]
-      routerPaths = routerPaths.split("_").map(item => JSON.parse(item))
-      return routerPaths
-    }
-  },
-
-  data() { // 定义变量  ，要渲染的数据
-    return {
-      isRouterAlive: true,
-      a: 1,
-      b: 2,
-      id: 9,
-    }
-  },
-
-  methods: {   // 自定义方法  
-    handleHeader(val) {
-      // 自己操作
-      // this.$router.push({   跳转
-      //   name: 'login',
-      //   params: {
-      //     id: 1,
-      //   }
-      // })
-      // this.$route.params.id   取值
-    },
-    // 页面重载函数
-    reload () {
-      this.isRouterAlive = false
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.isRouterAlive = true
-        }, 300)   
-      })
-    },
-
-    // 点击tab跳转到对应页面
-    handleClick(tag) {
-      this.$router.push({path: tag.path})
-    },
-
-    // 关闭tab标签
-    handleClose(tag) {
-      this.$store.dispatch('app/RemoveRouter', tag)
-    }
-  },
-  async mounted() {  //  页面渲染之前调用   async表示同步   
-    const res = await getCountryList({page:1, pageSize: 10});  //  await  等待后端接口返回值
-    // const list = [];
-    //  await postData(list);
-    console.log('res', res);  // 处理值
-  }
 }
 </script>
 
-<style lang="less">
-.ctn {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100%;
-  font-size: 1.5rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  &Head {
-    height: 50px;
-  }
-  &Body {
-    flex: 1 0 auto;
-    // border: 2px solid blue;
-    display: flex;
+<style lang="scss" scoped>
+.menu-page {
     height: 100%;
-    flex-flow: row nowrap;
+    display: flex;
+    
 
-    &Content {
-      flex: 1 1 auto;
-      height: 100%;
-      padding: 10px;
-      // border: 2px solid blue;
-      background-color: #f0f2f5;
-      overflow: auto;
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: center;
-      align-items: center;
-      // position: relative;
+    .my-menu {
+        position: relative;
+        padding-top: 20px;
+        .collapse {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            z-index: 100;
 
-      &Title {
-        width: 100%;
-        position: fixed;
-        top: 55px;
-        left: 205px;
-        z-index: 1;
-        // border: 1px solid red;
-
-        &Fold {
-          left: 80px;
+            img {
+                width: 16px;
+                height: 16px;
+            }
         }
-      }
     }
-  }
-}
 
-.easeInOut {
-  -webkit-transition: all 1s ease-in-out ;
-  -moz-transition: all 1s ease-in-out ;
-  -o-transition: all 1s ease-in-out ;
-  transition: all 1s ease-in-out ;
-}
-
-.childContent {
-  margin-top: 25px;
-  width: 97%;
-  height: 100%;
-}
-
-.breadCrumb {
-  float: left; 
-  margin-right: 30px; 
-}
-
-#routerTag {
-  float: left;
-  border: 1px solid rgba(30,144,255,0.3)
-}
-
-.el-dialog {
-  width: 25%;
-  min-width: 380px;
+    
 }
 </style>
