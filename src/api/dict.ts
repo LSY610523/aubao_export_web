@@ -6,15 +6,3 @@ export const getCountryList = async (data) => {
     method: 'get'
   });
 };
-
-export const postData = async (data) => {
-  return await service({
-    url: `/country`,
-    method: 'post',
-    data: {
-      // 要给后端的
-      list: data,
-    }
-    // data,
-  });
-};
