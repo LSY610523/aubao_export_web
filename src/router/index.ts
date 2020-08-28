@@ -152,7 +152,7 @@ const asyncRoutes = [
         name: '国家字典',
         iconCls: 'el-icon-reading',
         path: '/country',
-        component: () => import('../views/Country/index.vue'),
+        component: () => import('../views/Order/index.vue'),
         meta: {
           roles: ['admin', 'editor']
         }
