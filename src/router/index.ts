@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RawLocation }  from 'vue-router'
-import Login from '../views/Login/index.vue'
-import Home from '../views/Home/index.vue'
+import Login from '../views/login/index.vue'
+import Home from '../views/home/index.vue'
 import store from '@/store'
 import { generateRoutes } from './permission'
 
@@ -99,7 +99,7 @@ const asyncRoutes = [
     children: [
       {
         name: '清单',
-        path: '/detail',
+        path: '/admin',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -117,7 +117,7 @@ const asyncRoutes = [
     children: [
       {
         name: '申报口岸',
-        path: '/port',
+        path: '/admin',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -125,7 +125,7 @@ const asyncRoutes = [
       },
       {
         name: '单位字典',
-        path: '/unit',
+        path: '/admin',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
