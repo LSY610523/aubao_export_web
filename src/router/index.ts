@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RawLocation }  from 'vue-router'
-import Login from '../views/Login/index.vue'
-import Home from '../views/Home/index.vue'
+import Login from '../views/login/index.vue'
+import Home from '../views/home/index.vue'
 import store from '@/store'
 import { generateRoutes } from './permission'
 
@@ -153,6 +153,15 @@ const asyncRoutes = [
         iconCls: 'el-icon-reading',
         path: '/country',
         component: () => import('../views/Country/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        name: '运输方式',
+        iconCls: 'el-icon-reading',
+        path: '/transport',
+        component: () => import('../views/Order/index.vue'),
         meta: {
           roles: ['admin', 'editor']
         }

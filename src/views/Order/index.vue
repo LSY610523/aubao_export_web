@@ -61,11 +61,14 @@ export default{
             tableData: null
         }
     },
-    methods:{
-        async getCountry(){
-          this.p = await getCountryList({"page":1, "pageSize":10});
-            this.tableData = this.p.list
-      }
+    async mounted() {
+        try {
+            const res = await getCountryList({page: 1, pageSize: 10});
+            console.log('res',res);
+            this.tableData = res.data.list;
+        }catch(e) {
+            throw e;
+        }
     }
 }
 </script>
