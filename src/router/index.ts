@@ -65,7 +65,7 @@ const asyncRoutes = [
     children: [
       {
         name: '商品',
-        path: '/admin',
+        path: '/goods',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -82,8 +82,8 @@ const asyncRoutes = [
     children: [
       {
         name: '订单',
-        path: '/admin',
-        component: () => import('../views/AdminTable/index.vue'),
+        path: '/order',
+        component: () => import('../views/Order/index.vue'),
         meta: {
           roles: ['admin', 'editor']
         }
@@ -99,7 +99,7 @@ const asyncRoutes = [
     children: [
       {
         name: '清单',
-        path: '/admin',
+        path: '/detail',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -117,7 +117,7 @@ const asyncRoutes = [
     children: [
       {
         name: '申报口岸',
-        path: '/admin',
+        path: '/port',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -125,7 +125,7 @@ const asyncRoutes = [
       },
       {
         name: '单位字典',
-        path: '/admin',
+        path: '/unit',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -133,7 +133,7 @@ const asyncRoutes = [
       },
       {
         name: '国家字典',
-        path: '/admin',
+        path: '/country',
         component: () => import('../views/AdminTable/index.vue'),
         meta: {
           roles: ['admin', 'editor']
