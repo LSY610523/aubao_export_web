@@ -41,6 +41,12 @@ import { State } from 'vuex-class'
 
 @Component
 export default class NavBar extends Vue {
+  @Prop({
+    type: Number,
+    default: 1,
+  }) id;  // 接收父组件传来的值
+
+  myId: number = 1;
   @State(state => state.app.isFold) isFold!: boolean
 
   @Inject()  reload // 注入重载的功能
@@ -55,6 +61,10 @@ export default class NavBar extends Vue {
 
   public handleSelect() {
     this.reload()  // 点击侧边栏页面重载
+  }
+
+  mounted() {
+    this.myId = this.id;
   }
 }
 

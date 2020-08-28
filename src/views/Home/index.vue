@@ -1,6 +1,8 @@
 <template>
   <div class="ctn">
     <!-- 头部 -->
+    <!-- <div v-for="(item,i) of items" :key="i" class="ctnHead" @click="handleHeader(item)"> -->
+      <!-- <div>{{ isTotal }}</div> -->
     <div class="ctnHead">
       <head-bar></head-bar> 
     </div>
@@ -8,7 +10,7 @@
     <!-- 内容主体 -->
     <div class="ctnBody">
       <!-- 侧边栏 -->
-      <nav-bar></nav-bar>
+      <nav-bar :id="id"></nav-bar>
       <!-- 内容 -->
       <div class="ctnBodyContent">
         <div :class="['ctnBodyContentTitle', {'ctnBodyContentTitleFold': isFold}, 'easeInOut']">    
@@ -41,11 +43,12 @@
 import HeadBar from './components/HeadBar'
 import NavBar from './components/NavBar'
 import { mapGetters } from 'vuex'
+import { getCountryList, postData } from '@/api/dict.ts'   // 引入
 
 export default {
-  components: {
+  components: {  // 引入的组件 要注册
     HeadBar,
-    NavBar
+    NavBar   // <NavBar>  <nav-bar></nav-bar>
   },
 
   // 点击页面侧边栏实现重载页面
@@ -55,9 +58,12 @@ export default {
     }
   },
 
-  computed: {
+  computed: {  //  计算属性
+    isTotal() {
+      return this.a + this.b;
+    },
     isFold() {
-      return this.$store.state.app.isFold
+      return this.$store.state.app.isFold  // vuex 存储数据进行管理  组件通信   locaStorage
     },
     dynamicTags() {
       let routerPaths = this.$store.state["app"]
@@ -67,13 +73,26 @@ export default {
     }
   },
 
-  data() {
+  data() { // 定义变量  ，要渲染的数据
     return {
-      isRouterAlive: true
+      isRouterAlive: true,
+      a: 1,
+      b: 2,
+      id: 9,
     }
   },
 
-  methods: {
+  methods: {   // 自定义方法  
+    handleHeader(val) {
+      // 自己操作
+      // this.$router.push({   跳转
+      //   name: 'login',
+      //   params: {
+      //     id: 1,
+      //   }
+      // })
+      // this.$route.params.id   取值
+    },
     // 页面重载函数
     reload () {
       this.isRouterAlive = false
@@ -93,6 +112,12 @@ export default {
     handleClose(tag) {
       this.$store.dispatch('app/RemoveRouter', tag)
     }
+  },
+  async mounted() {  //  页面渲染之前调用   async表示同步   
+    const res = await getCountryList({page:1, pageSize: 10});  //  await  等待后端接口返回值
+    // const list = [];
+    //  await postData(list);
+    console.log('res', res);  // 处理值
   }
 }
 </script>
