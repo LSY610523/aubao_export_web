@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RawLocation }  from 'vue-router'
-import Login from '../views/login/index.vue'
-import Home from '../views/home/index.vue'
+import Login from '../views/Login/index.vue'
+import Home from '../views/Home/index.vue'
 import store from '@/store'
 import { generateRoutes } from './permission'
 
@@ -25,18 +25,35 @@ const routes = [
   {
     path: '/',
     component: Home,
-    redirect: '/dashboard',
     name: '',
-    iconCls: 'el-icon-s-help',
+    iconCls: 'el-icon-s-grid',
     leaf: true,
     children: [
       {
-        path: '/dashboard',
-        name: '首页',
-        component: () => import('../views/Dashboard/index.vue')
+        name: '商品',
+        path: '/admin',
+        component: () => import('../views/AdminTable/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
       }
     ]
-  }, 
+  },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   redirect: '/dashboard',
+  //   name: '',
+  //   iconCls: 'el-icon-s-help',
+  //   leaf: true,
+  //   children: [
+  //     {
+  //       path: '/dashboard',
+  //       name: '首页',
+  //       component: () => import('../views/Dashboard/index.vue')
+  //     }
+  //   ]
+  // }, 
   {
     path: '/',
     component: Home,
@@ -55,93 +72,6 @@ const routes = [
 ]
 
 const asyncRoutes = [
-  
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'el-icon-s-grid',
-    leaf: true,
-    children: [
-      {
-        name: '商品',
-        path: '/goods',
-        component: () => import('../views/AdminTable/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'el-icon-s-grid',
-    leaf: true,
-    children: [
-      {
-        name: '订单',
-        path: '/order',
-        component: () => import('../views/Order/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'el-icon-s-grid',
-    leaf: true,
-    children: [
-      {
-        name: '清单',
-        path: '/admin',
-        component: () => import('../views/AdminTable/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/',
-    component: Home,
-    name: '公共字典',
-    iconCls: 'el-icon-s-grid',
-    leaf: false,
-    children: [
-      {
-        name: '申报口岸',
-        path: '/admin',
-        component: () => import('../views/AdminTable/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      },
-      {
-        name: '单位字典',
-        path: '/admin',
-        component: () => import('../views/AdminTable/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      },
-      {
-        name: '国家字典',
-        path: '/country',
-        component: () => import('../views/Order/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      }
-    ]
-  },
-
   // {
   //   path: '/',
   //   component: Home,
@@ -150,7 +80,7 @@ const asyncRoutes = [
   //   leaf: true,
   //   children: [
   //     {
-  //       name: '表格',
+  //       name: '商品',
   //       path: '/admin',
   //       component: () => import('../views/AdminTable/index.vue'),
   //       meta: {
@@ -159,67 +89,76 @@ const asyncRoutes = [
   //     }
   //   ]
   // },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '图表',
-  //   iconCls: 'el-icon-s-data',
-  //   leaf: false,
-  //   children: [
-  //     {
-  //       name: '图表Tab',
-  //       iconCls: 'el-icon-help',
-  //       path: '/chart',
-  //       component: () => import('../views/Charts/index.vue'),
-  //       meta: {
-  //         roles: ['admin']
-  //       }
-  //     },
-  //     {
-  //       name: '图标Icon',
-  //       iconCls: 'el-icon-bicycle',
-  //       path: '/icon',
-  //       component: () => import('../views/Icon/index.vue'),
-  //       meta: {
-  //         roles: ['admin', 'editor']
-  //       }
-  //     }
-  //   ]
-  // }, 
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '',
-  //   iconCls: 'el-icon-share',
-  //   leaf: true,
-  //   children: [
-  //     {
-  //       name: 'Form表单',
-  //       path: '/form',
-  //       component: () => import('../views/Form/index.vue'),
-  //       meta: {
-  //         roles: ['admin']
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '',
-  //   iconCls: 'el-icon-star-on',
-  //   leaf: true,
-  //   children: [
-  //     {
-  //       name: 'Vuex使用',
-  //       path: '/vuex',
-  //       component: () => import('../views/VuexRelated/index.vue'),
-  //       meta: {
-  //         roles: ['admin']
-  //       }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'el-icon-tickets',
+    leaf: true,
+    children: [
+      {
+        name: '订单',
+        path: '/order',
+        component: () => import('../views/AdminTable/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'el-icon-document-copy',
+    leaf: true,
+    children: [
+      {
+        name: '清单',
+        path: '/inventory',
+        component: () => import('../views/AdminTable/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '公共字典',
+    iconCls: 'el-icon-s-data',
+    leaf: false,
+    children: [
+      {
+        name: '申报口岸',
+        iconCls: 'el-icon-help',
+        path: '/exit',
+        component: () => import('../views/Charts/index.vue'),
+        meta: {
+          roles: ['admin']
+        }
+      },
+      {
+        name: '单位字典',
+        iconCls: 'el-icon-document',
+        path: '/dict',
+        component: () => import('../views/Icon/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        name: '国家字典',
+        iconCls: 'el-icon-reading',
+        path: '/country',
+        component: () => import('../views/Country/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
+      }
+    ]
+  }, 
   {
     path: '*',
     redirect: '/404',  // 重定向到404页面
@@ -228,13 +167,13 @@ const asyncRoutes = [
 ]
 
 const router = new VueRouter({
-  // mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
 var flag = true  // 页面刷新标志
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {  
   if (to.path == '/login') {
     sessionStorage.removeItem('name');
     sessionStorage.removeItem('pass');

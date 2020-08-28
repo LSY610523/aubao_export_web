@@ -41,6 +41,7 @@
 import HeadBar from './components/HeadBar'
 import NavBar from './components/NavBar'
 import { mapGetters } from 'vuex'
+import { getCountryList } from '@/api/dict.ts';
 
 export default {
   components: {
@@ -93,6 +94,10 @@ export default {
     handleClose(tag) {
       this.$store.dispatch('app/RemoveRouter', tag)
     }
+  },
+  async mounted() {
+    // const res = await getCountryList({page:1, pageSize: 10});
+    // console.log('res', res);
   }
 }
 </script>

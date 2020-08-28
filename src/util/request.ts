@@ -17,10 +17,14 @@ const baseURL = process.env.VUE_APP_URL;
 const service = axios.default.create({
   baseURL,
   timeout: 10000,  // 请求超时时间
-  maxContentLength: 4000
+  maxContentLength: 4000,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
 })
 
 service.interceptors.request.use((config: AxiosRequestConfig) => {
+  console.log('process.env.VUE_APP_URL',config)
   if (localStorage.getItem('token')) {
     config.headers.token = localStorage.getItem('token');  //让请求头携带验证token
     config.headers.admin = localStorage.getItem('user'); // 让每个请求携带自定义token 请根据实际情况自行修改

@@ -20,6 +20,7 @@
     "mockjs": "^1.1.0",
     "qs": "^6.9.1",
     "register-service-worker": "^1.6.2",
+    "sass": "^1.26.10",
     "script-loader": "^0.7.2",
     "util": "^0.12.1",
     "vue": "^2.6.10",
@@ -54,7 +55,7 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.0",
+    "sass-loader": "^8.0.2",
     "typescript": "~3.5.3",
     "vue-template-compiler": "^2.6.10"
   }
