@@ -134,7 +134,7 @@ const asyncRoutes = [
       {
         name: '国家字典',
         path: '/country',
-        component: () => import('../views/AdminTable/index.vue'),
+        component: () => import('../views/Order/index.vue'),
         meta: {
           roles: ['admin', 'editor']
         }
