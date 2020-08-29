@@ -26,17 +26,18 @@ export default {
       page: 1,
       pageSize:10,
       listLoading: true,
+      loading: true,
     }
   },
 
   methods: {
     getHeadData(data, listLoading = false) {
-      let result = data.result
-      this.tableData = result.admins
+      let result = data.data;
+      this.tableData = result.list
       this.total = result.total
       this.listLoading = false
 
-      if (this.total < 15) {
+      if (this.total < 10) {
         this.page = 1
       }
     },
@@ -59,14 +60,14 @@ export default {
 
       async mounted() {
           
-       try {
-            const res =  await getGoodsList({page: 1, pageSize: 10});
-            console.log('res',res);
-            this.tableData = res.data.list;
-            this.total = res.total;
-        }catch(e) {
-            throw e;
-        }
+      //  try {
+      //       const res =  await getGoodsList({page: 1, pageSize: 10});
+      //       console.log('res',res);
+      //       // this.tableData = res.data.list;
+      //       // this.total = res.total;
+      //   }catch(e) {
+      //       throw e;
+      //   }
      
       }
 }

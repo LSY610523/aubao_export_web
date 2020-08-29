@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RawLocation }  from 'vue-router'
-import Login from '../views/login/index.vue'
-import Home from '../views/home/index.vue'
+import Login from '../views/Login/index.vue'
+import Home from '../views/Home/index.vue'
 import store from '@/store'
 import { generateRoutes } from './permission'
 
@@ -23,21 +23,21 @@ const routes = [
     component: Login
   },
  
-  {
-    path: '/',
-    component: Home,
-    redirect: '/dashboard',
-    name: '',
-    iconCls: 'el-icon-s-help',
-    leaf: true,
-    children: [
-      {
-        path: '/dashboard',
-        name: '首页',
-        component: () => import('../views/Dashboard/index.vue')
-      }
-    ]
-  }, 
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   redirect: '/dashboard',
+  //   name: '',
+  //   iconCls: 'el-icon-s-help',
+  //   leaf: true,
+  //   children: [
+  //     {
+  //       path: '/dashboard',
+  //       name: '首页',
+  //       component: () => import('../views/Dashboard/index.vue')
+  //     }
+  //   ]
+  // }, 
   {
     path: '/',
     component: Home,

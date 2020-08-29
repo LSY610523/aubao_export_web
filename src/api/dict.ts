@@ -6,3 +6,10 @@ export const getCountryList = async (data) => {
     method: 'get'
   });
 };
+
+export const getCurrencyList = async () => {
+  return await service({
+    url: '/country/all',
+    method: 'get',
+  });
+};

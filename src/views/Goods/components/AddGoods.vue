@@ -1,5 +1,11 @@
 <template>
-  <el-dialog title="添加商品" :visible.sync="dialogFormVisible" v-dialogDrag width="55%">
+  <el-dialog title="添加商品" 
+    v-loading="loading"
+    @open="load" 
+    :visible.sync="dialogFormVisible" 
+    v-dialogDrag 
+    width="55%" 
+    :destroy-on-close="true">
     <el-form :inline="true" :model="form" :rules="rules" ref="ruleForm">
       <el-form-item label="商品名称" :label-width="formLabelWidth" prop="gname">
         <el-input v-model="form.gname" autocomplete="off" class="formItem" placeholder="请输入商品名称"></el-input>
@@ -33,13 +39,14 @@
         <el-input v-model="form.country" autocomplete="off" class="formItem" placeholder="请输入商品原产国"></el-input>
       </el-form-item>
       <el-form-item label="币种" :label-width="formLabelWidth" prop="currency">
-        <el-cascader
-          placeholder="请选择币种"
-          v-model="form.currency"
-          :options="options"
-          class="formItem"
-          filterable
-        ></el-cascader>
+         <el-select v-model="form.currency" placeholder="请选择币种">
+            <el-option
+              v-for="item in options"
+              :key="item.code"
+              :label="item.bn"
+              :value="item.code">
+            </el-option>
+          </el-select>
       </el-form-item>
       <el-form-item label="单价" :label-width="formLabelWidth" prop="price">
         <el-input v-model="form.price" autocomplete="off" class="formItem" placeholder="请输入单价"></el-input>
@@ -50,7 +57,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button size="medium" @click="dialogFormVisible = false">取 消</el-button>
-      <el-button size="medium" type="primary" @click="saveGoods">添加</el-button>
+      <el-button size="medium" type="primary" @click="saveGoods" :loading="btnLoading">添加</el-button>
     </div>
   </el-dialog>
 </template>
@@ -59,6 +66,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import service from "@/service/index";
 import { addGoods } from "@/api/goods.ts";
+import { getCurrencyList } from '@/api/dict.ts';
 
 interface Add {
   form: Object;
@@ -69,6 +77,8 @@ interface Add {
 @Component
 export default class AddAdmin extends Vue implements Add {
   @Prop() private visible!: Boolean;
+  loading: boolean = true;
+  btnLoading: boolean = false;
 
   data() {
     return {
@@ -110,7 +120,7 @@ export default class AddAdmin extends Vue implements Add {
         ],
         currency: [
           {
-            type: "array",
+            type: "string",
             required: true,
             message: "请输入币种",
             trigger: "change",
@@ -135,38 +145,7 @@ export default class AddAdmin extends Vue implements Add {
   formLabelWidth = "120px";
   dialogFormVisible = this.visible;
 
-  options = [
-    {
-      value: "北京",
-      label: "北京",
-      children: [
-        {
-          value: "朝阳区",
-          label: "朝阳区",
-        },
-        {
-          value: "海淀区",
-          label: "海淀区",
-        },
-        {
-          value: "东城区",
-          label: "东城区",
-        },
-        {
-          value: "西城区",
-          label: "西城区",
-        },
-        {
-          value: "其他",
-          label: "其他",
-        },
-      ],
-    },
-    {
-      value: "其他地区",
-      label: "其他地区",
-    },
-  ];
+  options = [];
 
   @Watch("visible")
   onVisibleChange(val: Boolean, oldVal: Boolean) {
@@ -183,35 +162,47 @@ export default class AddAdmin extends Vue implements Add {
     }
   }
 
-  public addAdmin() {
-    service.postAdminList(this.form).then((res) => {
-      this.dialogFormVisible = false;
-      let { code, msg } = res.data;
-      if (code == 0) {
-        this.$message({
-          message: msg,
-          type: "success",
-        });
-      }
-      this.$emit("getAdmin");
-    });
-  }
+  // public addAdmin() {
+  //   service.postAdminList(this.form).then((res) => {
+  //     this.dialogFormVisible = false;
+  //     let { code, msg } = res.data;
+  //     if (code == 0) {
+  //       this.$message({
+  //         message: msg,
+  //         type: "success",
+  //       });
+  //     }
+  //     this.$emit("getAdmin");
+  //   });
+  // }
 
-  public saveGoods() {
-    addGoods(this.form);
+  async saveGoods() {
+    this.btnLoading = true;
     try {
+      await addGoods(this.form);
       this.dialogFormVisible = false;
-      const res = addGoods(this.form);
-      console.log("res", res);
+      this.$emit("getAdmin");
       this.$message({
         message: '保存成功',
         type: "success"
       })
-    } catch (e) {
+    }catch(e) {
+      throw e;
       this.$message({
         message: '保存失败',
         type: "error"
       })
+    }
+    this.btnLoading = false;
+  }
+
+  async load() {
+    try {
+      const res = await getCurrencyList();
+      this.options = res.data;
+      this.loading = false;
+      console.log('res currency',res);
+    }catch(e) {
       throw e;
     }
   }

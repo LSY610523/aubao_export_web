@@ -61,10 +61,12 @@ export default class AddAdmin extends Vue implements Edit{
   @Prop() private editVisible!: Boolean
   @Prop() private row !: Object
 
+
   form = this.row
   formLabelWidth = '120px'
   dialogFormVisible = this.editVisible
   loading = false
+  options: Array<any> = [];
 
    data(){
       return {

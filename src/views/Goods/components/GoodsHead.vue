@@ -18,6 +18,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import service from '@/service/index'
 import AddAdmin from './AddGoods.vue'
+import {getGoodsList} from '@/api/goods.ts'
 
 interface Admin {
   form: Object
@@ -40,9 +41,8 @@ export default class AdminHead extends Vue implements Admin{
   
   // 请求table数据
   public getAdmin() {
-    let params = Object.assign({}, this.form, {page: this.page })
-    service.getAdminList(params).then(res => {
-      this.downloadData = res.result['admins']
+    getGoodsList({page: 1, pageSize: 10}).then(res => {
+      this.downloadData = res.data.list;
       this.$emit('getHeadData', res, false)
     })
   }
