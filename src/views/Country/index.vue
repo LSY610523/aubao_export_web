@@ -8,6 +8,31 @@
             :value="item.code">
             </el-option>
         </el-select>
+
+            <el-table
+      :data="options"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="id"
+        label="ID"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="code"
+        label="字典码"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="名称">
+      </el-table-column>
+      <el-table-column
+        prop="bn"
+        label="缩写">
+      </el-table-column>
+    </el-table>
+       
     </div>
 </template>
 

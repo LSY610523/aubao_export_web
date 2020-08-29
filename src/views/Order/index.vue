@@ -1,40 +1,39 @@
 <template>
-    <!-- <el-table :data="tableData">
-        <el-table-column  prop="name" label="活动名称" align="center"> </el-table-column>
-        <el-table-column prop="region" label="活动区域" align="center"> </el-table-column>
-        <el-table-column prop="date3" label="活动时间" align="center"> </el-table-column>
-        <el-table-column prop="type" label="活动性质" align="center"> </el-table-column>
-        <el-table-column prop="desc" label="活动形式" align="center"> </el-table-column>
-    </el-table> -->
+    
     <div class="content">
-    <el-table :data="tableData" highlight-current-row :header-cell-style="{background:'rgba(255,218,185,0.4)',color:'#2F4F4F'}"
-    @sort-change='sortChange' v-loading="listLoading" border>
-      
+      <div class="country-search">
+        <el-select v-model="country" placeholder="请选择">
+              <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.name"
+              :value="item.code">
+              </el-option>
+          </el-select>
+      </div>
+    <el-table
+      :data="options"
+      border
+      style="width: 100%">
       <el-table-column
-        label="ID"
         prop="id"
-        align="center"
-        min-width="150"
-        sortable='custom'>
+        label="ID"
+        width="180">
       </el-table-column>
       <el-table-column
-        label="名字"
-        prop="name"
-        align="center"
-        min-width="150">
-      </el-table-column>
-      <el-table-column
-        label="Code"
         prop="code"
-        align="center"
-        min-width="150">
+        label="字典码"
+        width="180">
       </el-table-column>
       <el-table-column
-        label="BN"
-        prop="bn"
-        align="center"
-        min-width="150">
+        prop="name"
+        label="名称">
       </el-table-column>
+      <el-table-column
+        prop="bn"
+        label="缩写">
+      </el-table-column>
+    </el-table>
        
       <!-- <el-table-column label="操作" width="200">
         <template slot-scope="scope">
@@ -42,9 +41,9 @@
           <el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column> -->
-    </el-table>
+    <!-- </el-table> -->
 
-    <edit-admin :editVisible="editVisible" :row="row" @getChildData='getChildData' @flushList='flushList'></edit-admin>
+    <!-- <edit-admin :editVisible="editVisible" :row="row" @getChildData='getChildData' @flushList='flushList'></edit-admin> -->
   </div>
 </template>
 
@@ -57,42 +56,29 @@ import {getCountryList} from '@/api/dict'
 export default{
     data(){
         return{
-            p:null,
-            tableData: null
+            country:null,
+            tableData: [
+              {name:"张三1", region:"武昌1", date3:"2020-8-28", type:"1", desc:"1"},
+              {name:"张三2", region:"武昌3", date3:"2020-8-28", type:"1", desc:"1"},
+              {name:"张三3", region:"武昌3", date3:"2020-8-28", type:"1", desc:"1"}
+            ],
+            options: [],
         }
+    },
+    methods:{
+ 
     },
     async mounted() {
         try {
             const res = await getCountryList({page: 1, pageSize: 10});
             console.log('res',res);
-            this.tableData = res.data.list;
+            this.options = res.data.list;
         }catch(e) {
             throw e;
         }
     }
 }
 </script>
-// import Vue from 'vue'
-// import {getCountryList} from '@/api/dict'
-
-// export default{
-//     data() {
-//     return {
-//         p: null,
-//       tableData: [{"name":"张三1", "region":"武昌1", "date3":"2020-8-28", "type":"1", "desc":"1"},
-//       {"name":"张三2", "region":"武昌3", "date3":"2020-8-28", "type":"1", "desc":"1"},
-//       {"name":"张三3", "region":"武昌3", "date3":"2020-8-28", "type":"1", "desc":"1"}
-//       ]
-//     }
-//   },
-//   methods:{
-//       async getCountry(){
-//           this.p = await getCountryList({"page":1, "pageSize":10});
-     
-//       }
-//   },
-// }
-// </script>
 
 
 <style lang="less" scoped>
@@ -102,6 +88,11 @@ export default{
   width: 100%;
   margin: 20px 0;
   overflow: auto;    
+}
+
+.country-search {
+  text-align: left;
+  margin: 5px;
 }
 
 .demo-table-expand {

@@ -22,6 +22,22 @@ const routes = [
     hidden: true,
     component: Login
   },
+ 
+  {
+    path: '/',
+    component: Home,
+    redirect: '/dashboard',
+    name: '',
+    iconCls: 'el-icon-s-help',
+    leaf: true,
+    children: [
+      {
+        path: '/dashboard',
+        name: '首页',
+        component: () => import('../views/Dashboard/index.vue')
+      }
+    ]
+  }, 
   {
     path: '/',
     component: Home,
@@ -32,28 +48,13 @@ const routes = [
       {
         name: '商品',
         path: '/admin',
-        component: () => import('../views/AdminTable/index.vue'),
+        component: () => import('../views/Goods/index.vue'),
         meta: {
           roles: ['admin', 'editor']
         }
       }
     ]
   },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   redirect: '/dashboard',
-  //   name: '',
-  //   iconCls: 'el-icon-s-help',
-  //   leaf: true,
-  //   children: [
-  //     {
-  //       path: '/dashboard',
-  //       name: '首页',
-  //       component: () => import('../views/Dashboard/index.vue')
-  //     }
-  //   ]
-  // }, 
   {
     path: '/',
     component: Home,
