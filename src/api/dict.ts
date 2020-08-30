@@ -13,3 +13,10 @@ export const getCurrencyList = async () => {
     method: 'get',
   });
 };
+
+export const getCustomsList = async () => {
+  return await service({
+    url: '/customscode/all',
+    method: 'get',
+  });
+};

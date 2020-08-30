@@ -57,7 +57,7 @@ export default {
             if (code === 0) {
               sessionStorage.setItem('name', this.ruleForm.name)
               sessionStorage.setItem('pass', this.ruleForm.pass)
-              this.$router.push('/dashboard')
+              this.$router.push('/goods')
               this.$store.dispatch('app/UpdateRememberPass', this.remember)
             } else {
               this.$message({

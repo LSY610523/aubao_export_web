@@ -42,12 +42,13 @@ const routes = [
     path: '/',
     component: Home,
     name: '',
+    redirect: '/goods',
     iconCls: 'el-icon-s-grid',
     leaf: true,
     children: [
       {
         name: '商品',
-        path: '/admin',
+        path: '/goods',
         component: () => import('../views/Goods/index.vue'),
         meta: {
           roles: ['admin', 'editor']
@@ -100,7 +101,7 @@ const asyncRoutes = [
       {
         name: '订单',
         path: '/order',
-        component: () => import('../views/AdminTable/index.vue'),
+        component: () => import('../views/AdminTable/index.vue'), 
         meta: {
           roles: ['admin', 'editor']
         }
