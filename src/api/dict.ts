@@ -20,3 +20,10 @@ export const getCustomsList = async () => {
     method: 'get',
   });
 };
+
+export const getUnitList = async () => {
+  return await service({
+    url: '/unit/all',
+    method: 'get'
+  });
+};

@@ -17,7 +17,14 @@
         <el-input v-model="form.barcode" autocomplete="off" class="formItem" placeholder="请输入商品条码"></el-input>
       </el-form-item>
       <el-form-item label="规格型号" :label-width="formLabelWidth" prop="gmodel">
-        <el-input v-model="form.gmodel" autocomplete="off" class="formItem" placeholder="请输入商品规格型号"></el-input>
+        <el-select v-model="form.gmodel" placeholder="请选择币种">
+            <el-option
+              v-for="item in units"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code">
+            </el-option>
+          </el-select>
       </el-form-item>
       <el-form-item label="企业商品货号" :label-width="formLabelWidth" prop="itemno">
         <el-input
@@ -36,17 +43,20 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="原产国" :label-width="formLabelWidth" prop="country">
-        <el-input v-model="form.country" autocomplete="off" class="formItem" placeholder="请输入商品原产国"></el-input>
-      </el-form-item>
-      <el-form-item label="币种" :label-width="formLabelWidth" prop="currency">
-         <el-select v-model="form.currency" placeholder="请选择币种">
+        <!-- <el-input v-model="form.country" autocomplete="off" class="formItem" placeholder="请输入商品原产国"></el-input> -->
+        <el-select v-model="form.country" placeholder="请选择原产国">
             <el-option
               v-for="item in options"
               :key="item.code"
-              :label="item.bn"
+              :label="item.name"
               :value="item.code">
             </el-option>
-          </el-select>
+          </el-select> 
+      </el-form-item>
+      <el-form-item label="币种" :label-width="formLabelWidth" prop="currency">
+        <el-input v-model="form.currency" autocomplete="off" class="formItem" placeholder="人民币" disabled="true"></el-input>
+
+         <!-- -->
       </el-form-item>
       <el-form-item label="单价" :label-width="formLabelWidth" prop="price">
         <el-input v-model="form.price" autocomplete="off" class="formItem" placeholder="请输入单价"></el-input>
@@ -66,7 +76,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import service from "@/service/index";
 import { addGoods } from "@/api/goods.ts";
-import { getCurrencyList } from '@/api/dict.ts';
+import { getCurrencyList, getUnitList } from '@/api/dict.ts';
 
 interface Add {
   form: Object;
@@ -89,7 +99,7 @@ export default class AddAdmin extends Vue implements Add {
         gmodel: "",
         itemno: "",
         country: "",
-        currency: "",
+        currency: "142",
         price: "",
       },
       rules: {
@@ -146,6 +156,7 @@ export default class AddAdmin extends Vue implements Add {
   dialogFormVisible = this.visible;
 
   options = [];
+  units = [];
 
   @Watch("visible")
   onVisibleChange(val: Boolean, oldVal: Boolean) {
@@ -201,11 +212,15 @@ export default class AddAdmin extends Vue implements Add {
       const res = await getCurrencyList();
       this.options = res.data;
       this.loading = false;
+      const res1 = await getUnitList();
+      this.units = res1.data;
       console.log('res currency',res);
     }catch(e) {
       throw e;
     }
   }
+
+   
 }
 </script>
 
