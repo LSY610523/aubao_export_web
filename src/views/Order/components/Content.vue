@@ -8,9 +8,9 @@
     v-loading="listLoading"
     border>
       <el-table-column type="expand">
-        <template >
-          <el-table :data="tableData.goods">
-            <el-table-column label="条码" prop="barcode" align="center" min-width="100"> </el-table-column>
+        <template props="orderList">
+          <el-table :data="orderList">
+            <el-table-column label="条码" prop="barCode" align="center" min-width="100"> </el-table-column>
             <el-table-column label="商品名称" prop="gname" align="center" min-width="100"> </el-table-column>
             <el-table-column label="单价" prop="price" align="center" min-width="100"> </el-table-column>
             <el-table-column label="申报数量" prop="qty" align="center" min-width="100"> </el-table-column>
@@ -19,7 +19,7 @@
             <el-table-column label="法定单位" prop="unit1" align="center" min-width="100"> </el-table-column>
             <el-table-column label="第二数量" prop="qty2" align="center" min-width="100"> </el-table-column>
             <el-table-column label="第二单位" prop="unit2" align="center" min-width="100"> </el-table-column>
-            <el-table-column label="总价" prop="totalprice" align="center" min-width="100"> </el-table-column>
+            <el-table-column label="总价" prop="totalPrice" align="center" min-width="100"> </el-table-column>
           </el-table>
           <!-- <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="ID">
@@ -42,57 +42,57 @@
       </el-table-column>
       <el-table-column
         label="ID"
-        prop="id"
+        prop="Id"
         align="center"
         min-width="150"
         sortable='custom'>
       </el-table-column>
       <el-table-column
         label="订单编号"
-        prop="orderno"
+        prop="orderNo"
         align="center"
         min-width="150">
       </el-table-column>
       <el-table-column
         label="报送类型"
-        prop="apptype"
+        prop="appType"
         align="center"
         min-width="150">
       </el-table-column>
       <el-table-column
         label="业务状态"
-        prop="appstatus"
+        prop="appStatus"
         align="center"
         min-width="150">
       </el-table-column>
       <el-table-column
         label="毛重"
-        prop="grossweight"
+        prop="grossWeight"
         align="center"
         min-width="150">
       </el-table-column>
       <el-table-column
         label="净重"
-        prop="netweight"
+        prop="netWeight"
         align="center"
         min-width="150">
       </el-table-column>
        
     </el-table>
 
-    <edit-admin :editVisible="editVisible" :row="row" @getChildData='getChildData' @flushList='flushList'></edit-admin>
+    <edit-order :editVisible="editVisible" :row="row" @getChildData='getChildData' @flushList='flushList'></edit-order>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import EditAdmin from './EditAdmin/EditAdmin.vue'
+import EditOrder from './EditOrder/EditOrder.vue'
 import service from '@/service/index'
 
 @Component({
-  components: { EditAdmin }
+  components: { EditOrder }
 })
-export default class AdminContent extends Vue{
+export default class OrderContent extends Vue{
   @Prop() private tableData!: Array<object>
   @Prop() private listLoading!: Boolean
 

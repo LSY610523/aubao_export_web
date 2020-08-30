@@ -58,18 +58,7 @@ export default {
 
   },
 
-      async mounted() {
-          
-      //  try {
-      //       const res =  await getGoodsList({page: 1, pageSize: 10});
-      //       console.log('res',res);
-      //       // this.tableData = res.data.list;
-      //       // this.total = res.total;
-      //   }catch(e) {
-      //       throw e;
-      //   }
-     
-      }
+    
 }
 </script>
 

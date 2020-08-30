@@ -10,15 +10,16 @@
       </el-form-item>
     </el-form>
 
-    <add-admin :visible='visible' @getChildData='getChildData' @getAdmin='getAdmin'></add-admin>
+    <add-order :visible='visible' @getChildData='getChildData' @getAdmin='getAdmin'></add-order>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import service from '@/service/index'
-import AddAdmin from './AddAdmin/AddAdmin.vue'
+import AddOrder from './AddOrder/AddOrder.vue'
 import downloadMixins from '../mixins/download'
+import {getOrdersList} from '@/api/order'
 
 interface Admin {
   form: Object
@@ -26,10 +27,10 @@ interface Admin {
 }
 
 @Component({
-  components: { AddAdmin },
+  components: { AddOrder },
   mixins: [downloadMixins]
 })
-export default class AdminHead extends Vue implements Admin{
+export default class OrderHead extends Vue implements Admin{
   @Prop() private page !: number
 
   downloadData: Array<any> = []
@@ -41,10 +42,14 @@ export default class AdminHead extends Vue implements Admin{
   visible = false  // 添加对话框是否可见
   
   // 请求table数据
-  public getAdmin() {
-    let params = Object.assign({}, this.form, {page: this.page })
-    service.getAdminList(params).then(res => {
-      this.downloadData = res.result['admins']
+  public getOrder() {
+    // let params = Object.assign({}, this.form, {page: this.page })
+    // service.getAdminList(params).then(res => {
+    //   this.downloadData = res.result['admins']
+    //   this.$emit('getHeadData', res, false)
+    // })
+    getOrdersList({page:1, pageSize:15}).then(res =>{
+      this.downloadData = res.data.list;
       this.$emit('getHeadData', res, false)
     })
   }
@@ -55,7 +60,7 @@ export default class AdminHead extends Vue implements Admin{
   }
 
   private created() {
-    this.getAdmin()
+    this.getOrder()
   }
 }
 </script>

@@ -14,7 +14,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
-export default class AdminFoot extends Vue{
+export default class OrderFoot extends Vue{
   @Prop() private total!: number
   pageSize:number = 15
 

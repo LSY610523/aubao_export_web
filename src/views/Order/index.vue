@@ -1,22 +1,22 @@
 <template>
   <div class="admin">
-    <admin-head @getHeadData='getHeadData' ref="child" :page='page'></admin-head>
-    <admin-content :tableData="tableData" :listLoading="listLoading" @contentFlush='contentFlush'></admin-content>
-    <admin-foot :total="total" @getFootData='getFootData'></admin-foot>
+    <order-head @getHeadData='getHeadData' ref="child" :page='page'></order-head>
+    <order-content :tableData="tableData" :listLoading="listLoading" @contentFlush='contentFlush'></order-content>
+    <order-foot :total="total" @getFootData='getFootData'></order-foot>
     <div class="block"></div>
   </div>
 </template>
 
 <script>
-import AdminHead from './components/AdminHead'
-import AdminContent from './components/AdminContent'
-import AdminFoot from './components/AdminFoot'
+import OrderHead from './components/Head.vue'
+import OrderContent from './components/Content.vue'
+import OrderFoot from './components/Foot.vue'
 
 export default {
   components: {
-    AdminHead,
-    AdminContent,
-    AdminFoot
+    OrderHead,
+    OrderContent,
+    OrderFoot
   },
 
   data() {
@@ -30,8 +30,8 @@ export default {
 
   methods: {
     getHeadData(data, listLoading = false) {
-      let result = data.result
-      this.tableData = result.admins
+      let result = data.data
+      this.tableData = result.list
       this.total = result.total
       this.listLoading = false
 
@@ -42,14 +42,14 @@ export default {
 
     contentFlush() {
       this.$nextTick(() => {
-        this.$refs.child.getAdmin()
+        this.$refs.child.getOrder()
       })
     },
 
     getFootData(page, pageSize) {
       this.page = page
       this.$nextTick(() => {
-        this.$refs.child.getAdmin()
+        this.$refs.child.getOrder()
       })
     }
   },

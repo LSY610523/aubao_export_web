@@ -26,7 +26,7 @@
             </el-option>
           </el-select>
       </el-form-item>
-      <el-form-item label="申报海关"  >
+      <!-- <el-form-item label="申报海关"  >
          <el-select v-model="form.customs_import" placeholder="请选择">
             <el-option
               v-for="item in customsList"
@@ -58,7 +58,7 @@
       </el-form-item>
       <el-form-item label="件数"  >
          <el-input-number controls-position="right" v-model="form.quantity" :min="0"></el-input-number>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="毛重"  >
          <el-input v-model="form.gross_weight"></el-input>
       </el-form-item>
@@ -142,7 +142,7 @@ interface Add {
     AddGoods,
   }
 })
-export default class AddAdmin extends Vue implements Add{
+export default class AddOrder extends Vue implements Add{
   @Prop() private visible!: Boolean
   
 

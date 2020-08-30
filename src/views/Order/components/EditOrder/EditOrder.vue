@@ -30,7 +30,7 @@ interface Edit {
 }
 
 @Component
-export default class AddAdmin extends Vue implements Edit{
+export default class EditOrder extends Vue implements Edit{
   @Prop() private editVisible!: Boolean
   @Prop() private row !: Object
 
