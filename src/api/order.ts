@@ -7,7 +7,7 @@ export const getOrdersList = async (data) => {
   });
 };
 
-export const addGoods = async (data) => {
+export const addOrder = async (data) => {
   return await service({
     url:`/order`,
     method:'post',
