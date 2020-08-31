@@ -226,9 +226,9 @@ export default class AddOrder extends Vue implements Add{
           const goods = this.tableData.map(item => {
             return {
               ...item,
-              unit: item.unit.code,
-              unit1: item.unit1.code,
-              unit2: item.unit2.code,
+              unit: item.unit ? item.unit.code : null,
+              unit1: item.unit1 ? item.unit1.code : null,
+              unit2: item.unit2 ? item.unit2.code : null,
             }
           })
           const data = {
@@ -236,6 +236,13 @@ export default class AddOrder extends Vue implements Add{
             goods,
           };
           this.dialogFormVisible = false;
+          this.form = {
+            apptype: 1,
+            appstatus: 1,
+            grossweight: null,
+            netweight: null,
+          };
+          this.tableData = [];
           await addOrder(data);
           this.addLoading = false;
           this.$emit('getAdmin')

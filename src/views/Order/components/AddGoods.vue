@@ -19,7 +19,7 @@
                 </el-select>
             </el-form-item>
             <!-- <el-form-item label="规格"  prop="specification">
-                <el-input v-model="form.specification"></el-input>
+                <el-input v-model="form" disabled></el-input>
             </el-form-item> -->
             <el-form-item label="申报数量"  prop="qty">
                 <el-input-number controls-position="right" v-model="form.qty" :min="0"></el-input-number>
