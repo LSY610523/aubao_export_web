@@ -2,6 +2,7 @@
     <el-dialog title="添加商品" 
         v-loading="loading"
         @open="load" 
+        @close="closeDialog"
         :visible.sync="visible" 
         width="55%" 
         append-to-body
@@ -140,6 +141,9 @@ export default {
                 throw e;
             }
             this.loading = false;
+        },
+        closeDialog() {
+            this.$emit('update:visibleGoods',false);
         },
         addgoodsItem() {
             this.submitLoading = true;
