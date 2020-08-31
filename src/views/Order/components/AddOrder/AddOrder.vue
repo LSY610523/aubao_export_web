@@ -93,7 +93,7 @@
           label="申报数量">
         </el-table-column>
         <el-table-column
-          prop="unit"
+          prop="unit.name"
           label="申报单位">
         </el-table-column>
         <el-table-column
@@ -101,7 +101,7 @@
           label="法定数量">
         </el-table-column>
         <el-table-column
-          prop="unit1"
+          prop="unit1.name"
           label="法定单位">
         </el-table-column>
         <el-table-column
@@ -109,7 +109,7 @@
           label="第二数量">
         </el-table-column>
         <el-table-column
-          prop="unit2"
+          prop="unit2.name"
           label="第二单位">
         </el-table-column>
       </el-table>
@@ -174,8 +174,8 @@ export default class AddOrder extends Vue implements Add{
     // customs_export: null,
     // declare_type: null,
     // quantity: 0,
-    grossweight: 0,
-    netweight: 0,
+    grossweight: null,
+    netweight: null,
   }
   formLabelWidth = '120px'
   rules: Object = {
@@ -226,9 +226,17 @@ export default class AddOrder extends Vue implements Add{
     try {
       (this.$refs['ruleForm'] as any).validate(async (valid) => {
         if (valid) {
+          const goods = this.tableData.map(item => {
+            return {
+              ...item,
+              unit: item.unit.code,
+              unit1: item.unit1.code,
+              unit2: item.unit2.code,
+            }
+          })
           const data = {
             ...this.form,
-            goods: this.tableData,
+            goods,
           };
           this.dialogFormVisible = false;
           await addOrder(data);
