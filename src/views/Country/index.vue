@@ -32,32 +32,73 @@
         label="缩写">
       </el-table-column>
     </el-table>
-       
+    
+      <div class="foot">
+    <el-pagination
+      background
+      layout="total, prev, pager, next"
+      @current-change="handleCurrentChange"
+      :page-size="pageSize"
+      :total="total">
+    </el-pagination>
+  </div>   
     </div>
+    
 </template>
 
-<script>
+<script lang='ts'>
 import { getCountryList } from '@/api/dict.ts';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-export default {
-    data() {
-        return {
-            options: [],
-            value: null,
-        }
-    },
-    async mounted() {
-        try {
-            const res = await getCountryList({page: 1, pageSize: 10});
-            console.log('res',res);
+export default class CountryDict extends Vue {
+  @Prop() private total!: number
+  pageSize:number = 15
+  options:Array<Object> = []
+
+   public handleCurrentChange(val) {
+    let page = val
+    this.getCountry({page:page, pageSize:this.pageSize})
+  }
+
+  private mounted(){
+      this.getCountry({page:1, pageSize:this.pageSize})
+  }
+  public getCountry(val){
+          getCountryList({page:val.page, pageSize:val.pageSize}).then(res =>{
+            console.log(res);
             this.options = res.data.list;
-        }catch(e) {
-            throw e;
-        }
-    }
+            this.total = res.data.total;
+          })
+
+  }
+    // data() {
+    //     return {
+    //         options: [],
+    //         value: null,
+    //     }
+    // },
+
+    // async mounted() {
+    //     try {
+    //         const res = await getCountryList({page: 1, pageSize: 10});
+    //         console.log('res',res);
+    //         this.options = res.data.list;
+    //     }catch(e) {
+    //         throw e;
+    //     }
+    // }
 }
 </script>
 
 <style lang="scss" scoped>
+.foot {
+  flex: 0 0 50px;
+  width: 100%;
+  background-color:rgba(	176,196,222, 0.8);
+}
 
+.el-pagination {
+  margin-top: 10px;
+  float: right;
+}
 </style>
