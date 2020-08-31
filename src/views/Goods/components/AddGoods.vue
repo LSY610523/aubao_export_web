@@ -54,7 +54,7 @@
           </el-select> 
       </el-form-item>
       <el-form-item label="币种" :label-width="formLabelWidth" prop="currency">
-        <el-input v-model="form.currency" autocomplete="off" class="formItem" placeholder="人民币" disabled="true"></el-input>
+        <el-input v-model="form.currency" autocomplete="off" class="formItem" placeholder="人民币" :disabled="true"></el-input>
 
          <!-- -->
       </el-form-item>

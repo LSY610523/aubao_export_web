@@ -6,8 +6,8 @@
     width="65%" 
     :destroy-on-close="true">
     <el-form class="form-block" :label-width="formLabelWidth" :model="form" :rules="rules" ref="ruleForm">
-      <el-form-item label="报送类型">
-         <el-select v-model="form.submission_type" placeholder="请选择">
+      <el-form-item label="报送类型" prop="apptype">
+         <el-select v-model="form.apptype" placeholder="请选择">
             <el-option
               v-for="item in submissionList"
               :key="item.value"
@@ -16,8 +16,8 @@
             </el-option>
           </el-select>
       </el-form-item>
-      <el-form-item label="业务状态"  >
-         <el-select v-model="form.business_status" placeholder="请选择">
+      <el-form-item label="业务状态" prop="appstatus">
+         <el-select v-model="form.appstatus" placeholder="请选择">
             <el-option
               v-for="item in businessList"
               :key="item.value"
@@ -59,11 +59,11 @@
       <el-form-item label="件数"  >
          <el-input-number controls-position="right" v-model="form.quantity" :min="0"></el-input-number>
       </el-form-item> -->
-      <el-form-item label="毛重"  >
-         <el-input v-model="form.gross_weight"></el-input>
+      <el-form-item label="毛重" prop="grossweight">
+         <el-input v-model="form.grossweight"></el-input>
       </el-form-item>
-      <el-form-item label="净重"  >
-         <el-input v-model="form.net_weight"></el-input>
+      <el-form-item label="净重" prop="netweight">
+         <el-input v-model="form.netweight"></el-input>
       </el-form-item>
     </el-form>
 
@@ -81,7 +81,7 @@
           label="商品id">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="gname"
           label="名称">
         </el-table-column>
         <el-table-column
@@ -89,37 +89,37 @@
           label="规格">
         </el-table-column>
         <el-table-column
-          prop="quantity"
+          prop="qty"
           label="申报数量">
         </el-table-column>
         <el-table-column
-          prop="unit"
+          prop="unit.name"
           label="申报单位">
         </el-table-column>
         <el-table-column
-          prop="legal_quantity"
+          prop="qty1"
           label="法定数量">
         </el-table-column>
         <el-table-column
-          prop="legal_unit"
+          prop="unit1.name"
           label="法定单位">
         </el-table-column>
         <el-table-column
-          prop="second_quantity"
+          prop="qty2"
           label="第二数量">
         </el-table-column>
         <el-table-column
-          prop="second_unit"
+          prop="unit2.name"
           label="第二单位">
         </el-table-column>
       </el-table>
     </div>
 
-    <add-goods :visibleGoods="visibleGoods" @addGoodsItem="addGoodsItem"/>
+    <add-goods :visibleGoods.sync="visibleGoods" @addGoodsItem="addGoodsItem"/>
 
     <div slot="footer" class="dialog-footer">
       <el-button size="medium" @click="dialogFormVisible = false" >取 消</el-button>
-      <el-button size="medium" type="primary" @click="addAdmin">添加</el-button>
+      <el-button size="medium" type="primary" @click="addAdmin" :loading="addLoading">添加</el-button>
     </div>
   </el-dialog>
   
@@ -130,6 +130,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import service from '@/service/index'
 import { getCustomsList } from '@/api/dict.ts';
 import AddGoods from '../AddGoods.vue';
+import { addOrder } from '@/api/order.ts';
 
 interface Add {
   form: Object
@@ -167,24 +168,34 @@ export default class AddOrder extends Vue implements Add{
   tableData: Array<any> = [];
 
   form = {
-    submission_type: 1,
-    business_status: 1,
-    customs_import: null,
-    customs_export: null,
-    declare_type: null,
-    quantity: 0,
-    gross_weight: 0,
-    net_weight: 0,
+    apptype: 1,
+    appstatus: 1,
+    // customs_import: null,
+    // customs_export: null,
+    // declare_type: null,
+    // quantity: 0,
+    grossweight: null,
+    netweight: null,
   }
   formLabelWidth = '120px'
   rules: Object = {
-    submission_type: [
+    apptype: [
       { required: true, message: '请选择', trigger: 'blur' },
-    ]
+    ],
+    appstatus: [
+      { required: true, message: '请选择', trigger: 'blur' },
+    ],
+    grossweight: [
+      { required: true, message: '请填入', trigger: 'blur' },
+    ],
+    netweight: [
+      { required: true, message: '请填入', trigger: 'blur' },
+    ],
   }
   dialogFormVisible = this.visible
-  loading: boolean = false
+  loading: boolean = true
   visibleGoods: boolean = false;
+  addLoading: boolean = false;
 
 
   @Watch('visible')
@@ -203,7 +214,6 @@ export default class AddOrder extends Vue implements Add{
   }
 
   changeVisible() {
-    console.log('click me');
     this.visibleGoods = true;
   }
 
@@ -211,27 +221,44 @@ export default class AddOrder extends Vue implements Add{
     this.tableData.push(val);
   }
 
-  public addAdmin() {
-    service.postAdminList(this.form).then(res => {
-      this.dialogFormVisible = false
-      let { code, msg } = res.data
-      if (code == 0) {
-        this.$message({
-          message: msg,
-          type: 'success'
-        })
-      }
-      this.$emit('getAdmin')
-    })
+  async addAdmin() {
+    this.addLoading = true;
+    try {
+      (this.$refs['ruleForm'] as any).validate(async (valid) => {
+        if (valid) {
+          const goods = this.tableData.map(item => {
+            return {
+              ...item,
+              unit: item.unit.code,
+              unit1: item.unit1.code,
+              unit2: item.unit2.code,
+            }
+          })
+          const data = {
+            ...this.form,
+            goods,
+          };
+          this.dialogFormVisible = false;
+          await addOrder(data);
+          this.addLoading = false;
+          this.$emit('getAdmin')
+        } else {
+          this.addLoading = false;
+          return false;
+        }
+      });
+    }catch(e) {
+      throw e;
+    }
   }
 
   async load() {
-    // this.loading = false;
     try{
       await getCustomsList();
     }catch(e) {
       throw e;
     }
+    this.loading = false;
   }
 }
 </script>
