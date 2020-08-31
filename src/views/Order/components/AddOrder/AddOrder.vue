@@ -84,10 +84,7 @@
           prop="gname"
           label="名称">
         </el-table-column>
-        <el-table-column
-          prop="specification"
-          label="规格">
-        </el-table-column>
+  
         <el-table-column
           prop="qty"
           label="申报数量">
@@ -185,12 +182,12 @@ export default class AddOrder extends Vue implements Add{
     appstatus: [
       { required: true, message: '请选择', trigger: 'blur' },
     ],
-    grossweight: [
-      { required: true, message: '请填入', trigger: 'blur' },
-    ],
-    netweight: [
-      { required: true, message: '请填入', trigger: 'blur' },
-    ],
+    // grossweight: [
+    //   { required: true, message: '请填入', trigger: 'blur' },
+    // ],
+    // netweight: [
+    //   { required: true, message: '请填入', trigger: 'blur' },
+    // ],
   }
   dialogFormVisible = this.visible
   loading: boolean = true

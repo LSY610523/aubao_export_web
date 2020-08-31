@@ -18,9 +18,9 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="规格"  prop="specification">
+            <!-- <el-form-item label="规格"  prop="specification">
                 <el-input v-model="form.specification"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="申报数量"  prop="qty">
                 <el-input-number controls-position="right" v-model="form.qty" :min="0"></el-input-number>
             </el-form-item>
@@ -88,19 +88,13 @@ export default {
             formLabelWidth: '120px',
             submitLoading: false,
             form: {
-                specification: null,
-                id: null,
+                 id: null,
                 qty: null,
                 unit: null,
-                qty1: null,
-                unit1: null,
-                qty2: null,
-                unit2: null,
+                    
             },
             rules: {
-                specification: [
-                    { required: true, message: '请输入规格', trigger: 'blur' },
-                ],
+                
                 id: [
                     { required: true, message: '请选择', trigger: 'blur' },
                 ],
@@ -109,19 +103,8 @@ export default {
                 ],
                 unit: [
                     { required: true, message: '请填入', trigger: 'blur' },
-                ],
-                qty1: [
-                    { required: true, message: '请填入', trigger: 'blur' },
-                ],
-                unit1: [
-                    { required: true, message: '请填入', trigger: 'blur' },
-                ],
-                qty2: [
-                    { required: true, message: '请填入', trigger: 'blur' },
-                ],
-                unit2: [
-                    { required: true, message: '请填入', trigger: 'blur' },
-                ],
+                ] 
+                
             },
         }
     },
