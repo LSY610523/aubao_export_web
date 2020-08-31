@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RawLocation }  from 'vue-router'
-import Login from '../views/login/index.vue'
-import Home from '../views/home/index.vue'
+import Login from '../views/Login/index.vue'
+import Home from '../views/Home/index.vue'
 import store from '@/store'
 import { generateRoutes } from './permission'
 
@@ -23,39 +23,39 @@ const routes = [
     component: Login
   },
  
-  {
-    path: '/',
-    component: Home,
-    redirect: '/dashboard',
-    name: '',
-    iconCls: 'el-icon-s-help',
-    leaf: true,
-    children: [
-      {
-        path: '/dashboard',
-        name: '首页',
-        component: () => import('../views/Dashboard/index.vue')
-      }
-    ]
-  }, 
   // {
   //   path: '/',
   //   component: Home,
+  //   redirect: '/dashboard',
   //   name: '',
-  //   redirect: '/goods',
-  //   iconCls: 'el-icon-s-grid',
+  //   iconCls: 'el-icon-s-help',
   //   leaf: true,
   //   children: [
   //     {
-  //       name: '商品',
-  //       path: '/goods',
-  //       component: () => import('../views/Goods/index.vue'),
-  //       meta: {
-  //         roles: ['admin', 'editor']
-  //       }
+  //       path: '/dashboard',
+  //       name: '首页',
+  //       component: () => import('../views/Dashboard/index.vue')
   //     }
   //   ]
-  // },
+  // }, 
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    redirect: '/goods',
+    iconCls: 'el-icon-s-grid',
+    leaf: true,
+    children: [
+      {
+        name: '商品',
+        path: '/goods',
+        component: () => import('../views/Goods/index.vue'),
+        meta: {
+          roles: ['admin', 'editor']
+        }
+      }
+    ]
+  },
   {
     path: '/',
     component: Home,
@@ -74,23 +74,6 @@ const routes = [
 ]
 
 const asyncRoutes = [
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'el-icon-s-grid',
-    leaf: true,
-    children: [
-      {
-        name: '商品',
-        path: '/goods',
-        component: () => import('../views/Goods/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      }
-    ]
-  },
   {
     path: '/',
     component: Home,
