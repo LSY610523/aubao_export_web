@@ -4,6 +4,7 @@
     :data="tableData"
     highlight-current-row
     :header-cell-style="{background:'rgba(255,218,185,0.4)',color:'#2F4F4F'}"
+    :tree-props="{children:'orderList'}"
     @sort-change='sortChange'
     v-loading="listLoading"
     border>

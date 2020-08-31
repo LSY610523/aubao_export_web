@@ -12,7 +12,7 @@
                     <el-option
                     v-for="item in goodsList"
                     :key="item.id"
-                    :label="item.itemname"
+                    :label="item.gname"
                     :value="item.id">
                     </el-option>
                 </el-select>
