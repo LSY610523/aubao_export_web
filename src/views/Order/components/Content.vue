@@ -9,8 +9,8 @@
     v-loading="listLoading"
     border>
       <el-table-column type="expand">
-        <template props="orderList">
-          <el-table :data="orderList">
+        <template slot-scope="props">
+          <el-table :data="props.row.orderList">
             <el-table-column label="条码" prop="barCode" align="center" min-width="100"> </el-table-column>
             <el-table-column label="商品名称" prop="gname" align="center" min-width="100"> </el-table-column>
             <el-table-column label="单价" prop="price" align="center" min-width="100"> </el-table-column>
@@ -22,23 +22,6 @@
             <el-table-column label="第二单位" prop="unit2" align="center" min-width="100"> </el-table-column>
             <el-table-column label="总价" prop="totalPrice" align="center" min-width="100"> </el-table-column>
           </el-table>
-          <!-- <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="ID">
-              <span>{{ props.row.id }}</span>
-            </el-form-item>
-            <el-form-item label="名字">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="地址">
-              <span>{{ props.row.addr }}</span>
-            </el-form-item>
-            <el-form-item label="创建时间">
-              <span>{{ props.row.buildtime }}</span>
-            </el-form-item>
-            <el-form-item label="图像">
-              <span><img :src="props.row.image" title="图像示例"></span>
-            </el-form-item>
-          </el-form> -->
         </template>
       </el-table-column>
       <el-table-column
@@ -59,12 +42,18 @@
         prop="appType"
         align="center"
         min-width="150">
+        <template slot-scope="scope">
+          {{submissionList[scope.row.appType]}}
+        </template>
       </el-table-column>
       <el-table-column
         label="业务状态"
         prop="appStatus"
         align="center"
         min-width="150">
+        <template slot-scope="scope">
+          {{businessList[scope.row.appStatus]}}
+        </template>
       </el-table-column>
       <el-table-column
         label="毛重"
@@ -96,6 +85,19 @@ import service from '@/service/index'
 export default class OrderContent extends Vue{
   @Prop() private tableData!: Array<object>
   @Prop() private listLoading!: Boolean
+
+  // 报送类型
+  submissionList: Object = {
+    1: '新增',
+    2: '变更',
+    3: '删除',
+  };
+
+  // 业务状态
+  businessList: Object = {
+    1: '暂存',
+    2: '申报',
+  };
 
   editVisible = false
   row = {}

@@ -7,7 +7,7 @@
         append-to-body
         :destroy-on-close="true">
         <el-form class="form-block" :label-width="formLabelWidth" :model="form" :rules="rules" ref="ruleForm">
-            <el-form-item label="商品">
+            <el-form-item label="商品" prop="id">
                 <el-select v-model="form.id" placeholder="请选择">
                     <el-option
                     v-for="item in goodsList"
@@ -17,31 +17,31 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="规格"  >
+            <el-form-item label="规格"  prop="specification">
                 <el-input v-model="form.specification"></el-input>
             </el-form-item>
-            <el-form-item label="申报数量"  >
-                <el-input-number controls-position="right" v-model="form.quantity" :min="0"></el-input-number>
+            <el-form-item label="申报数量"  prop="qty">
+                <el-input-number controls-position="right" v-model="form.qty" :min="0"></el-input-number>
             </el-form-item>
-            <el-form-item label="申报单位"  >
+            <el-form-item label="申报单位"  prop="unit">
                 <el-input v-model="form.unit"></el-input>
             </el-form-item>
-            <el-form-item label="法定数量"  >
-                <el-input-number controls-position="right" v-model="form.legal_quantity" :min="0"></el-input-number>
+            <el-form-item label="法定数量" prop="qty1">
+                <el-input-number controls-position="right" v-model="form.qty1" :min="0"></el-input-number>
             </el-form-item>
-            <el-form-item label="法定单位"  >
-                <el-input v-model="form.legal_unit"></el-input>
+            <el-form-item label="法定单位" prop="unit1">
+                <el-input v-model="form.unit1"></el-input>
             </el-form-item>
-            <el-form-item label="第二数量"  >
-                <el-input-number controls-position="right" v-model="form.second_quantity" :min="0"></el-input-number>
+            <el-form-item label="第二数量" prop="qty2">
+                <el-input-number controls-position="right" v-model="form.qty2" :min="0"></el-input-number>
             </el-form-item>
-            <el-form-item label="第二单位"  >
-                <el-input v-model="form.second_unit"></el-input>
+            <el-form-item label="第二单位" prop="unit2">
+                <el-input v-model="form.unit2"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button size="medium" @click="visible = false" >取 消</el-button>
-            <el-button size="medium" type="primary" @click="addgoodsItem">添加</el-button>
+            <el-button size="medium" type="primary" :loading="submitLoading" @click="addgoodsItem">添加</el-button>
         </div>
     </el-dialog>
 </template>
@@ -62,17 +62,43 @@ export default {
             visible: false,
             goodsList: [],
             formLabelWidth: '120px',
+            submitLoading: false,
             form: {
                 specification: null,
                 id: null,
-                quantity: 0,
+                qty: 0,
                 unit: null,
-                legal_quantity: 0,
-                legal_unit: null,
-                second_quantity: 0,
-                second_unit: null,
+                qty1: 0,
+                unit1: null,
+                qty2: 0,
+                unit2: null,
             },
-            rules: {},
+            rules: {
+                specification: [
+                    { required: true, message: '请输入规格', trigger: 'blur' },
+                ],
+                id: [
+                    { required: true, message: '请选择', trigger: 'blur' },
+                ],
+                qty: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+                unit: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+                qty1: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+                unit1: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+                qty2: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+                unit2: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+            },
         }
     },
     watch: {
@@ -84,29 +110,33 @@ export default {
         async load() {
             try{
                 const res = await getGoodsList({page: 1, pageSize: 10});
-                console.log('res goods', res)
                 res.data && (this.goodsList = res.data.list);
-
             }catch(e) {
                 throw e;
             }
             this.loading = false;
         },
         addgoodsItem() {
-            if(Object.keys(this.form).every(key => this.form[key])) {
-                const goods = this.goodsList.filter(key => key.id === this.form.id);
-                const data = {
-                    ...this.form,
-                    name: goods['itemname'],
-                };
-                this.$emit('addGoodsItem',data);
-                this.visible = false;
-            }
-           
+            this.submitLoading = true;
+            this.$refs['ruleForm'].validate((valid) => {
+                if (valid) {
+                    const goods = this.goodsList.find(key => key.id === this.form.id);
+                    const data = {
+                        ...this.form,
+                        ...goods,
+                    }
+                    this.submitLoading = false;
+                    this.$emit('addGoodsItem',data);
+                    this.visible = false;
+                    this.$emit('update:visibleGoods', false);
+                } else {
+                    this.submitLoading = false;
+                    return false;
+                }
+            });
         }
     },
     created() {
-        console.log('visible',this.visibleGoods);
         this.visible = this.visibleGoods;
     }
 }

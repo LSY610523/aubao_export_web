@@ -62,6 +62,14 @@ export default class OrderHead extends Vue implements Admin{
   private created() {
     this.getOrder()
   }
+
+  // 请求table数据
+  public getAdmin() {
+    getOrdersList({page: 1, pageSize: 10}).then(res => {
+      this.downloadData = res.data.list;
+      this.$emit('getHeadData', res, false)
+    })
+  }
 }
 </script>
 
