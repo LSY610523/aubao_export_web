@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-select v-model="value" placeholder="请选择">
+    <div v-loading="loading">
+        <el-select v-model="country" placeholder="请选择">
             <el-option
             v-for="item in options"
             :key="item.value"
@@ -9,39 +9,39 @@
             </el-option>
         </el-select>
 
-            <el-table
-      :data="options"
-      border
-      style="width: 100%">
-      <el-table-column
-        prop="id"
-        label="ID"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="code"
-        label="字典码"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="名称">
-      </el-table-column>
-      <el-table-column
-        prop="bn"
-        label="缩写">
-      </el-table-column>
-    </el-table>
-    
-      <div class="foot">
-    <el-pagination
-      background
-      layout="total, prev, pager, next"
-      @current-change="handleCurrentChange"
-      :page-size="pageSize"
-      :total="total">
-    </el-pagination>
-  </div>   
+        <el-table
+          :data="options"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="id"
+            label="ID"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="code"
+            label="字典码"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="名称">
+          </el-table-column>
+          <el-table-column
+            prop="bn"
+            label="缩写">
+          </el-table-column>
+        </el-table>
+        
+        <div class="foot">
+          <el-pagination
+            background
+            layout="total, prev, pager, next"
+            @current-change="handleCurrentChange"
+            :page-size="pageSize"
+            :total="total">
+          </el-pagination>
+        </div>   
     </div>
     
 </template>
@@ -50,43 +50,34 @@
 import { getCountryList } from '@/api/dict.ts';
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
+@Component
 export default class CountryDict extends Vue {
-  @Prop() private total!: number
-  pageSize:number = 15
-  options:Array<Object> = []
+  pageSize:number = 10
+  total: number = 0;
+  options:Array<any> = [];
+  country: any = null;
+  loading: boolean = true;
 
-   public handleCurrentChange(val) {
+  public handleCurrentChange(val) {
     let page = val
-    this.getCountry({page:page, pageSize:this.pageSize})
+    this.getCountry({page, pageSize:this.pageSize})
   }
 
-  private mounted(){
-      this.getCountry({page:1, pageSize:this.pageSize})
+  
+  async getCountry(val){
+    this.loading = true;
+    try {
+      const {data} = await getCountryList(val);
+      data && (this.options = data.list,this.total = data.total);
+    } catch(e) {
+      throw e;
+    }
+    this.loading = false;
   }
-  public getCountry(val){
-          getCountryList({page:val.page, pageSize:val.pageSize}).then(res =>{
-            console.log(res);
-            this.options = res.data.list;
-            this.total = res.data.total;
-          })
 
+  mounted(){
+      this.getCountry({page:1, pageSize:this.pageSize});
   }
-    // data() {
-    //     return {
-    //         options: [],
-    //         value: null,
-    //     }
-    // },
-
-    // async mounted() {
-    //     try {
-    //         const res = await getCountryList({page: 1, pageSize: 10});
-    //         console.log('res',res);
-    //         this.options = res.data.list;
-    //     }catch(e) {
-    //         throw e;
-    //     }
-    // }
 }
 </script>
 
