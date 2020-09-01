@@ -91,7 +91,7 @@ export default {
                  id: null,
                 qty: null,
                 unit: null,
-                    
+
             },
             rules: {
                 
@@ -102,6 +102,12 @@ export default {
                     { required: true, message: '请填入', trigger: 'blur' },
                 ],
                 unit: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ] ,
+                 qty1: [
+                    { required: true, message: '请填入', trigger: 'blur' },
+                ],
+                unit1: [
                     { required: true, message: '请填入', trigger: 'blur' },
                 ] 
                 

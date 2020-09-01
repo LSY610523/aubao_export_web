@@ -26,6 +26,16 @@
             </el-option>
           </el-select>
       </el-form-item>
+      <el-form-item label="报关模式" prop="appstatus">
+         <el-select v-model="form.applyType" placeholder="请选择">
+            <el-option
+              v-for="item in applyTypeList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+      </el-form-item>
       <!-- <el-form-item label="申报海关"  >
          <el-select v-model="form.customs_import" placeholder="请选择">
             <el-option
@@ -155,6 +165,11 @@ export default class AddOrder extends Vue implements Add{
     {value: 2, label: '申报'},
   ];
 
+  applyTypeList:Array<any> = [
+    {value:1, label: '清单模式'},
+    {value:2, label: '报关单模式'}
+  ]
+
   customsList: Array<any> = [];
 
   declareList: Array<any> = [
@@ -182,12 +197,12 @@ export default class AddOrder extends Vue implements Add{
     appstatus: [
       { required: true, message: '请选择', trigger: 'blur' },
     ],
-    // grossweight: [
-    //   { required: true, message: '请填入', trigger: 'blur' },
-    // ],
-    // netweight: [
-    //   { required: true, message: '请填入', trigger: 'blur' },
-    // ],
+    grossweight: [
+      { required: true, message: '请填入', trigger: 'blur' },
+    ],
+    netweight: [
+      { required: true, message: '请填入', trigger: 'blur' },
+    ],
   }
   dialogFormVisible = this.visible
   loading: boolean = true

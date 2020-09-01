@@ -14,3 +14,19 @@ export const addGoods = async (data) => {
     data:data
   });
 }
+
+export const editGoods = async (data) =>{
+  return await service({
+    url:`/goods`,
+    method:'put',
+    data:data
+  })
+}
+
+export const deleteGoods = async (data) =>{
+  return await service({
+    url:`/goods?id=${data.id}`,
+    method:'delete',
+    data:{}
+  })
+}

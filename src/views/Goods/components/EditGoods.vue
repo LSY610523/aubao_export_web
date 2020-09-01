@@ -23,13 +23,8 @@
         <el-input v-model="form.country" autocomplete="off" class="formItem" placeholder="请输入商品原产国"></el-input>
       </el-form-item>
             <el-form-item label="币种" :label-width="formLabelWidth" prop="currency">
-        <el-cascader
-          placeholder="请选择币种"
-          v-model="form.currency"
-          :options="options"
-          class="formItem"      
-          filterable>
-        </el-cascader>
+                <el-input v-model="form.currency" :value="142" autocomplete="off" class="formItem" placeholder="人民币" :disabled="true"></el-input>
+
       </el-form-item>
       <el-form-item label="单价" :label-width="formLabelWidth" prop="price">
         <el-input v-model="form.price" autocomplete="off" class="formItem" placeholder="请输入单价"></el-input>
@@ -48,6 +43,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import service from '@/service/index'
+import {editGoods} from '@/api/goods'
 
 interface Edit {
   form: Object
@@ -77,7 +73,6 @@ export default class AddAdmin extends Vue implements Edit{
           gmodel: '',
           itemno: '',
           country: '',
-          currency: '',
           price: ''
     
         },
@@ -103,9 +98,7 @@ export default class AddAdmin extends Vue implements Edit{
           country: [
             {required: true, message: '请输入商品原产国', trigger: 'change' }
           ],
-          currency: [
-            {type:'array', required: true, message: '请输入币种' , trigger: 'change' }
-          ],
+        
           price: [
             { required: true, message: '请输入单价' , trigger: 'change' }
           ],
@@ -134,7 +127,7 @@ export default class AddAdmin extends Vue implements Edit{
   public editAdmin() {
     let params = this.form
     this.loading = true
-    service.putAdminList(params).then(res => {
+    editGoods(params).then(res =>{
       this.loading = false
       this.dialogFormVisible = false
       let { code, msg } = res.data
@@ -145,7 +138,19 @@ export default class AddAdmin extends Vue implements Edit{
         })
       }
       this.$emit('flushList')
-    }) 
+    })
+  //   service.putAdminList(params).then(res => {
+  //     this.loading = false
+  //     this.dialogFormVisible = false
+  //     let { code, msg } = res.data
+  //     if (code == 0) {
+  //       this.$message({
+  //         message: msg,
+  //         type: 'success'
+  //       })
+  //     }
+  //     this.$emit('flushList')
+  //   }) 
   }
 }
 </script>

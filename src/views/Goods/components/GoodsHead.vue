@@ -1,11 +1,11 @@
 <template>
   <div class="head">
     <el-form ref="form" :model="form" label-width="auto" class="headForm" :inline="true">
-      <el-form-item label="查询的商品名称">
+      <!-- <el-form-item label="查询的商品名称">
         <el-input v-model="form.id" placeholder="查询的商品名称" style="width: 200px"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
-        <el-button type="primary" @click="getAdmin" size="small" icon="el-icon-search">查询</el-button>
+        <!-- <el-button type="primary" @click="getAdmin" size="small" icon="el-icon-search">查询</el-button> -->
         <el-button type="primary" @click="visible=true" size="small" icon="el-icon-plus">添加商品</el-button>
       </el-form-item>
     </el-form>

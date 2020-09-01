@@ -91,23 +91,23 @@ const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'el-icon-document-copy',
-    leaf: true,
-    children: [
-      {
-        name: '清单',
-        path: '/inventory',
-        component: () => import('../views/AdminTable/index.vue'),
-        meta: {
-          roles: ['admin', 'editor']
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: '',
+  //   iconCls: 'el-icon-document-copy',
+  //   leaf: true,
+  //   children: [
+  //     {
+  //       name: '清单',
+  //       path: '/inventory',
+  //       component: () => import('../views/AdminTable/index.vue'),
+  //       meta: {
+  //         roles: ['admin', 'editor']
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/',
     component: Home,
@@ -119,7 +119,7 @@ const asyncRoutes = [
         name: '申报口岸',
         iconCls: 'el-icon-help',
         path: '/exit',
-        component: () => import('../views/Charts/index.vue'),
+        component: () => import('../views/Country/customscode.vue'),
         meta: {
           roles: ['admin']
         }
@@ -128,7 +128,7 @@ const asyncRoutes = [
         name: '单位字典',
         iconCls: 'el-icon-document',
         path: '/dict',
-        component: () => import('../views/Icon/index.vue'),
+        component: () => import('../views/Country/unit.vue'),
         meta: {
           roles: ['admin', 'editor']
         }
@@ -146,7 +146,7 @@ const asyncRoutes = [
         name: '运输方式',
         iconCls: 'el-icon-reading',
         path: '/transport',
-        component: () => import('../views/Order/index.vue'),
+        component: () => import('../views/Country/trafmode.vue'),
         meta: {
           roles: ['admin', 'editor']
         }

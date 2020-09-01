@@ -27,3 +27,25 @@ export const getUnitList = async () => {
     method: 'get'
   });
 };
+
+export const getTrafModeList = async(data) =>{
+  return await service({
+    url:`/trafmode?page=${data.page}&pageSize=${data.pageSize}`,
+    method:'get'
+  })
+}
+
+export const getUnitListPage = async (data) =>{
+  return await service({
+    url:`/unit?page=${data.page}&pageSize=${data.pageSize}`,
+    method:'get'
+  })
+}
+
+
+export const getCustomscode = async (data) =>{
+  return await service({
+    url:`/customscode?page=${data.page}&pageSize=${data.pageSize}`,
+    method:'get'
+  })
+}

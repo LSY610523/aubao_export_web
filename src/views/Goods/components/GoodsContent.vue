@@ -62,6 +62,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import EditAdmin from './EditGoods.vue'
 import service from '@/service/index'
+import {deleteGoods} from '@/api/goods'
 
 @Component({
   components: { EditAdmin }
@@ -93,7 +94,8 @@ export default class AdminContent extends Vue{
 
   public handleDel(index, row) {
     let params = {id: row.id}
-    service.deleteAdminList(params).then(res => {
+    deleteGoods(params).then(res =>{
+    // service.deleteAdminList(params).then(res => {
       let { code, msg } = res.data
       this.$message({
         message: msg,
