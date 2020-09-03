@@ -17,7 +17,10 @@ const baseURL = process.env.VUE_APP_URL;
 const service = axios.default.create({
   baseURL,
   timeout: 10000,  // 请求超时时间
-  maxContentLength: 4000
+  maxContentLength: 4000,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
 })
 
 service.interceptors.request.use((config: AxiosRequestConfig) => {
