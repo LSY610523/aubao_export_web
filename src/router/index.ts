@@ -1,32 +1,4 @@
 import Vue from 'vue'
-<<<<<<< HEAD
-import VueRouter from 'vue-router'
-
-Vue.use( VueRouter );
-
-
-// 创建一个路由对象
-let router = new VueRouter({
-    mode: 'history',
-
-    routes: [
-        {
-            path: '/',
-            // name: 'Main',
-            component: () => import('@/views/home/index.vue'),
-            children: [
-                {
-                    path: '',
-                    name: 'Product',
-                    component: () => import('@/views/product/index.vue'),
-                }
-            ]
-        },
-        {
-            path: '/login',
-            name: 'Login',
-            component: () => import('@/views/login/index.vue')
-=======
 import VueRouter, { RawLocation }  from 'vue-router'
 import Login from '../views/Login/index.vue'
 import Home from '../views/Home/index.vue'
@@ -115,11 +87,10 @@ const asyncRoutes = [
         component: () => import('../views/Order/index.vue'), 
         meta: {
           roles: ['admin', 'editor']
->>>>>>> liusy
         }
+      }
     ]
-<<<<<<< HEAD
-=======
+  
   },
   // {
   //   path: '/',
@@ -194,7 +165,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
->>>>>>> liusy
 })
 
 var flag = true  // 页面刷新标志

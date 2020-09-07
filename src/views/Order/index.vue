@@ -28,28 +28,6 @@ export default {
     }
   },
 
-<<<<<<< HEAD
-<script>
-import Vue from 'vue'
-import {getCountryList} from '@/api/dict'
-
-export default {
-    data(){
-        return{
-            p:null
-        }
-    },
-    methods:{
-        async getCountry(){
-          this.p = await getCountryList({"page":1, "pageSize":10});
-     
-      }
-    }
-}
-</script>
-// import Vue from 'vue'
-// import {getCountryList} from '@/api/dict'
-=======
   methods: {
     getHeadData(data, listLoading = false) {
       let result = data.data
@@ -61,7 +39,6 @@ export default {
         this.page = 1
       }
     },
->>>>>>> liusy
 
     contentFlush() {
       this.$nextTick(() => {
