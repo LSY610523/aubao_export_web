@@ -69,12 +69,18 @@
       <el-form-item label="件数"  >
          <el-input-number controls-position="right" v-model="form.quantity" :min="0"></el-input-number>
       </el-form-item> -->
+      <el-form-item label="订单个数">
+        <el-input-number v-model="form.orderNum" :min="1"></el-input-number>
+      </el-form-item>
       <el-form-item label="毛重" prop="grossweight">
          <el-input v-model="form.grossweight"></el-input>
       </el-form-item>
       <el-form-item label="净重" prop="netweight">
          <el-input v-model="form.netweight"></el-input>
       </el-form-item>
+      <!-- <el-form-item label="订单个数" prop="orderNum">
+        <el-input-number  controls-position="right"   v-model="from.orderNum" :min="1"></el-input-number>
+      </el-form-item> -->
     </el-form>
 
     <div class="goods-select">
@@ -188,6 +194,8 @@ export default class AddOrder extends Vue implements Add{
     // quantity: 0,
     grossweight: null,
     netweight: null,
+    orderNum:null
+    
   }
   formLabelWidth = '120px'
   rules: Object = {
@@ -256,6 +264,7 @@ export default class AddOrder extends Vue implements Add{
             appstatus: 1,
             grossweight: null,
             netweight: null,
+            orderNum:null
           };
           this.tableData = [];
           await addOrder(data);
